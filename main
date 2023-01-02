@@ -1,0 +1,825 @@
+#------------------------------------------------------------------------
+# Name:        Toronto Maple Leafs Player and Team Stats page
+# Purpose:     Allow users to view player and team stats for the Toronto Maple Leafs and compare them to other players around the league
+# Author:      Clara Wong 
+# Created:     06-05-20
+# Updated:     06-05-20
+#------------------------------------------------------------------------
+
+import logging
+logging.basicConfig(filename='log.txt', level=logging.DEBUG, format=' %(asctime)s - %(levelname)s - %(message)s')
+
+# leaving or continuing the program
+def leavingContinuing():
+  '''
+  Runs when user is about to continue using or exit the program.
+  
+  Asks user if they would like to fill out feedback form or exit program. Does not 
+  require any parameters. Can return to the beginning of this function, selectingMenu() function, or exit the program.
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  NoneType
+    Returns None if any key other than '0' or '9' are inputted.
+  '''
+  
+  print("Press '0' to go back to the main menu, '9' to fill out our feedback form, or any key to exit")
+  logging.info("Function begins with user input.")
+  leavingBasicInfo = input()
+  if leavingBasicInfo == '0':
+    logging.info("User inputs 0.")
+    print()
+    logging.info("Since user input is 0, program goes back to the main menu.")
+    selectingMenu()
+  if leavingBasicInfo == '9':
+    logging.info("User inputs 9.")
+    print()
+    logging.debug("Feedback form is printed.")
+    print('How was your experience using this application? Type a corresponding number to respond.')
+    feedback = ['1. Very Good', '2. Good', '3. Satisfactory', '4. Poor']
+    for options in range(0, len(feedback), 1):
+      print(feedback[options])
+    feedbackInput = input()
+    logging.info("User inputs an integer from 1-4.")
+    if feedbackInput == '1' or feedbackInput == '2' or feedbackInput == '3' or feedbackInput == '4':
+      print('Would you like to add additional comments? Press enter if would like to skip.')
+      input()
+      logging.info("Returns to leavingContinuing()")
+      leavingContinuing()
+    elif feedbackInput != '1' or feedbackInput != '2' or feedbackInput != '3' or feedbackInput != '4':
+      logging.info ("Input is invalid.")
+      while feedbackInput != '1' or feedbackInput != '2' or feedbackInput != '3' or feedbackInput != '4':
+        print('invalid, please insert a valid number')
+        logging.info("User inputs another value")
+        feedbackInput2 = input()
+        if feedbackInput2 == '1' or feedbackInput2 == '2' or feedbackInput2 == '3' or feedbackInput2 == '4':
+          logging.info("User input is valid, feedback form continues.")
+          print('Would you like to add additional comments? Press enter if you would like to skip.')
+          input()
+          logging.info("Returns to leavingContinuing()")
+          leavingContinuing()
+  else:
+    logging.info('Exits the program')
+    return None
+    
+# menu
+def selectingMenu():
+
+  '''
+  Allows user to select what they would like to view. 
+  
+  Asks user if they would like to view the Team page or Players Page. Does not require
+  any parameters. Checks and sends error message for invalid inputs (inputs other than 1 or 2). 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  logging.debug("Print out options.")
+  print('Please type the corresponding number (1 or 2) to view.')
+  print('1. Team')
+  print('2. Players')
+
+  logging.info("User inputs value.")
+  userInput = input()
+  logging.info("The user input is " + str(userInput))
+  if userInput == '1':
+    logging.info("Goes to team()")
+    team()
+  elif userInput == '2':
+    logging.info("Goes to players()")
+    players()
+  else:
+    logging.info("User input is invalid.")
+    print("invalid entry, type '1' or '2'")
+    logging.info("Goes back to selectingMenu()")
+    selectingMenu()
+
+# team option
+def team():
+  '''
+  Allows user to select what they would like to view about the team. 
+  
+  Asks user if they would like to view the Team 'Basic Information' 'Team Stats', or 'Team Leaders and Player Comparisons'.
+  Require no parameters. Checks if user inputs a valid response (either 1, 2, or 3)
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  print()
+  print('What would you like to view about the team? Please type the corresponding number to view.')
+  teamOptions = ['1. Basic Information', '2. Team Stats', '3. Team Leaders and Player Comparisons']
+  for options in range(0, len(teamOptions), 1):
+    logging.info("Print out team options.")
+    print(teamOptions[options])
+
+# inputting option from team menu  
+  teamInput = input()
+  logging.info("User input is " + str(teamInput))
+  if teamInput == '1':
+    logging.info("Goes to basicInformation()")
+    basicInformation()
+  elif teamInput == '2':
+    logging.info("Goes to teamStats()")
+    teamStats()
+  elif teamInput == '3':
+    logging.info("Goes to teamLeaders()")
+    teamLeaders()
+  else:
+    logging.info("User input is invalid.")
+    print("Invalid entry, type 1 or 2 or 3")
+    logging.info("Goes back to team()")
+    team()
+    
+# basic information - team menu
+def basicInformation():
+  '''
+  Displays team's basic information.
+  
+  Displays basic information about the Toronto Maple Leafs. Requires no parameters and does not check for anything.
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  logging.info("Prints out basic information")
+  print()
+  print('                        Basic Information')
+  print('Coach: Sheldon Keefe')
+  print('Location: Toronto')
+  print('Arena: Scotiabank Arena')
+  print('Captain: John Tavares')
+  print()
+  logging.info("Goes to leavingContinuing()")
+  leavingContinuing()
+  
+# team stats - team menu
+def teamStats():
+  '''
+  Displays team stats.
+  
+  Displays team stats for the Toronto Maple Leafs. Does not require
+  any parameters and does not check for any errors.
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  '''
+
+  print()
+  logging.info("Prints out team statistics.")
+  print('                        Team Stats')
+  print("Average Games Played: " + str((gamesPlayed1 + gamesPlayed2 + gamesPlayed3 + gamesPlayed4 + gamesPlayed5) / 5))
+  print("Total Team Points: " + str(points1 + points2 + points3 + points4 + points5))
+  print("Average Goals: " + str((goals1 + goals2 + goals3 + goals4 + goals5)/5))
+  print("Average Assists: " + str((assists1 + assists2 + assists3 + assists4 + assists5)/5))
+  print("Average Points Per Game: " + (str(round((points1 + points2 + points3 + points4 + points5)/(gamesPlayed1 + gamesPlayed2 + gamesPlayed3 + gamesPlayed4 + gamesPlayed5), 2))))
+  logging.info("Goes to leavingContinuing()")
+  leavingContinuing()
+
+# listing players in order
+def listingOrder(leaderboardName):
+  '''
+  Prints out players in descending order based on their statistics.
+  
+  Prints out players in descending order based on their statistics (goals, assists, points, points per game). 
+  Requires one parameter, which is the list of players and each player's statistics. 
+
+  Parameters
+  ----------
+  leaderboardName: list
+    A list of players and their corresponding statistics.
+  
+  Returns
+  -------
+  String
+    Returns a blank after the last name on the leaderboard
+  '''
+  logging.debug("Function listingOrder is given parameter: " + str(leaderboardName))
+  leaderboardName.sort(reverse=True)
+  index = 0
+  index2 = 0
+  index3 = 1
+  logging.debug("Ranks players based on their statistics (greatest to least)")
+  logging.info("Prints out the leaderboard.")
+  for index in range(0, len(leaderboardName)):
+    print(str(leaderboardName[index][index2]) + str(leaderboardName[index][index3]))
+  blank = ' ' # prevents the program from outputting 'None'
+  return blank
+
+# team leaders - team menu
+def teamLeaders():
+  '''
+  Allows user to compare their own players to the team and prints out the leaderboard.
+  
+  Allows user to compare their own players to the team and prints out the leaderboard. Requires no parameters. Checks if user input is a valid number (positive integers within a certain range)
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  '''
+  
+  print()
+  print('                        Team Leaders')
+  print()
+  print("Would you like to compare another player to other players on the Toronto Maple Leafs? Click '1' for a comparison and any other key to skip.")
+  logging.info("User inputs a value")
+  comparisonInput = input()
+  if comparisonInput == '1':
+    logging.info("User inputted 1 into comparisonInput.")
+    name = ' - ' + input("Type in the player's name. ")
+    print('Name: ' + name)
+    
+    gamesPlayed = input("Type in the number of games the player has played ")
+    logging.info("User inputted " + str(gamesPlayed))
+    while gamesPlayed.isnumeric() == False:
+      logging.error("User input is invalid because it is not an integer.")
+      print('invalid input')
+      gamesPlayed = input("Type in the number of games the player has played ")
+    if  gamesPlayed.isnumeric() == True:
+      logging.info("User input is an integer.")
+      gamesPlayed = int(gamesPlayed)
+      if gamesPlayed < 0 or gamesPlayed > 82:
+        logging.error("User input is invalid because it is not within 1-82 games played range.")
+        while gamesPlayed < 0 or gamesPlayed > 82:
+          print('invalid input')
+          gamesPlayed = input()
+    logging.info("Games played is " + str(gamesPlayed))
+    print('Games Played: ' + str(gamesPlayed))
+    
+    goals = input("Type in the player's number of goals ")
+    logging.info("User inputted " + str(goals))
+    while goals.isnumeric() == False:
+      logging.error("User input is invalid because it is not an integer.")
+      print('invalid input')
+      goals = input("Type in the player's number of goals ")
+    if goals.isnumeric() == True:
+      logging.info("User input is an integer.")
+      goals = int(goals)
+      if goals < 0:
+        logging.error("User input is invalid because it is a negative integer")
+        while goals < 0:
+          print('invalid input')
+          goals = input()
+    logging.info("Total goals is " + str(goals))
+    print('Goals Scored: ' + str(goals))
+    
+    assists = input("Type in the player's number of assists")
+    logging.info("User inputted " + str(assists))
+    while assists.isnumeric() == False:
+      logging.error("User input is invalid because it is not an integer.")
+      print('invalid input')
+      assists = input("Type in the player's number of assists")
+    if assists.isnumeric() == True:
+      logging.info("User input is an integer.")
+      assists = int(assists)
+      if assists < 0:
+        while assists < 0:
+          logging.info("User input is invalid because it is a negative integer.")
+          print('invalid input')
+          assists = input()
+    logging.info("Total assists is " + str(assists))
+    print('Assists: ' + str(assists))
+    
+    logging.info("Total goals and assists are valid, calculating total points.")
+    points = goals + assists
+    print('Total points: ' + str(points))
+    
+    logging.info("Points and games played are valid, calculating points per game.")
+    ppg = points/gamesPlayed
+    print('Points per game: ' + str(ppg))
+    print()
+
+# goal leaders
+  print('Goal Leaders')
+  logging.info("Printing out leaderboard for goal leaders.")
+  goalsLeader = [[goals1, ' - John Tavares'], [goals2, ' - Auston Matthews'],
+                 [goals3, ' - Mitch Marner'], [goals4, ' - Morgan Rielly'], [goals5, ' - Jake Muzzin']]
+  if comparisonInput == '1':
+    logging.info("User inputted '1' into comparisonInput, adding player to list")
+    goalsLeader.append([goals, name])
+  print (listingOrder(goalsLeader))
+  print('The player with the most goals is ' + str(goalsLeader[0][0]) + str(goalsLeader[0][1]) + '!')
+
+# assist leaders
+  print('Assist Leaders')
+  logging.info("Printing out leaderboard for assist leaders.")
+  assistsLeader = [[assists1, ' - John Tavares'], [assists2, ' - Auston Matthews'], [assists3, ' - Mitch Marner'],
+                   [assists4, ' - Morgan Rielly'], [assists5, ' - Jake Muzzin']]
+  if comparisonInput == '1':
+    logging.info("User inputted '1' into comparisonInput, adding player to list.")
+    assistsLeader.append([assists, name])
+  print(listingOrder(assistsLeader))
+  print('The player with the most assists is ' + str(assistsLeader[0][0]) + str(assistsLeader[0][1]) + '!')
+
+# Points leaders
+  print('Points Leaders')
+  logging.info("Printing out leaderboard for points leaders.")
+  pointsLeader = [[points1, ' - John Tavares'], [points2, ' - Auston Matthews',], [points3, ' - Mitch Marner'],
+                  [points4, ' - Morgan Rielly'], [points5, ' - Jake Muzzin']]
+  if comparisonInput == '1':
+    logging.info("User inputted '1' into comparisonInput, adding player to list.")
+    pointsLeader.append([points, name])
+  print(listingOrder(pointsLeader))
+  print('The player with the most points on the team is ' + str(pointsLeader[0][0]) + str(pointsLeader[0][1]) + '!')
+  print()
+
+# points per game leaders
+  print('Points Per Game Leaders')
+  logging.info("Printing out leaderboard for point per game leaders.")
+  ppgLeaders = [[pointsPerGame(points1, gamesPlayed1), ' - John Tavares'],
+              [pointsPerGame(points2, gamesPlayed2), ' - Auston Matthews'], 
+              [pointsPerGame(points3, gamesPlayed3), ' - Mitch Marner'],
+              [pointsPerGame(points4, gamesPlayed4), ' - Morgan Rielly'],
+              [pointsPerGame(points5, gamesPlayed5), ' - Jake Muzzin']]
+  if comparisonInput == '1':
+    ppg = round(ppg, 2)
+    logging.info("User inputted '1' into comparisonInput, round ppg to two decimal places and adding player to list")
+    ppgLeaders.append([ppg, name])
+  print(listingOrder(ppgLeaders))
+  print('The highest points per game rate on the team is ' + str(ppgLeaders[0][0]) + str(ppgLeaders[0][1]) + '!')
+  logging.info("All leaderboards have been printed, return function leavingContinuing()")
+  leavingContinuing()
+
+# player option  
+def players():
+  '''
+  The user can choose which player they want to view.
+  
+  The user can choose which player they want to view. Require no parameters. 
+  Checks if user input is valid (an integer between 1-5) 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  print("Which player would you like to view? Please type the corresponding number to view.")
+  playerOptions = ['1. John Tavares', '2. Auston Matthews', '3. Mitch Marner', '4. Morgan Rielly', '5. Jake Muzzin']
+  logging.info("Print out player options.")
+  for options in range(0, len(playerOptions), 1):
+    print(playerOptions[options])
+
+  global playerInput
+  playerInput = input()
+  if playerInput == '1' or playerInput == '2' or playerInput == '3'or playerInput == '4' or playerInput == '5':
+    logging.info("playerInput received a valid input (an integer from 1-5), goes to function viewPlayers()")
+    viewPlayers()
+  else:
+    logging.error("playerInput received an input of a wrong type or out of range, goes back to function players()")
+    print('Invalid error, type a number from 1-5')
+    players()
+
+def viewPlayers():
+  '''
+  Allows user to choose what they would like to view about the player they selected.
+  
+  Allows user to choose what they would like to view about the player they selected. Requires no parameters. Checks if user inputs a valid input. 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  print()
+  print('What would you like to view about the player? Please type in the corresponding number. If you would like to go back to the main menu, press 0.')
+  viewPlayerOptions = ['1. Basic Stats', '2. Advanced Stats', '3. About the Player']
+  logging.info("Printing out view player options.")
+  for options in range(0, len(viewPlayerOptions), 1):
+    print(viewPlayerOptions[options])
+    
+  global viewPlayerInput 
+  viewPlayerInput = input()
+  if viewPlayerInput == '1':
+    logging.info("User inputted '1' into viewPlayerInput, goes to function basicStats()")
+    basicStats()
+  elif viewPlayerInput == '2':
+    logging.info("User inputted '2' into viewPlayerInput, goes to function advancedStats()")
+    advancedStats()
+  elif viewPlayerInput == '3':
+    logging.info("User inputted '3' into viewPlayerInput, goes to function aboutPlayer()")
+    aboutPlayer()
+  else: 
+    print()
+    logging.error("viewPlayerInput received an input of a wrong type or out of range, goes to function viewPlayers()")
+    print('Invalid entry, type in 1 or 2 or 3')
+    viewPlayers()
+
+# total points
+def points(a, b):
+  '''
+  Calculates a player's points.
+  
+  Calculates a player's points. Requires two parameters, which are the player's goals and assists.
+
+  Parameters
+  ----------
+  a: int
+    Number of goals.
+  b: int
+    Number of assists.
+  
+  Returns
+  -------
+  int
+    Returns the player's points.
+  NoneType
+    Returns none if player's goals or assists is not an integer or is less than 0. 
+    
+  '''
+  logging.debug("Function points is given parameters: " + str(a) + " and " + str(b))
+  if not isinstance(a, int) or not isinstance(b, int):
+    logging.error("Given parameter is not an int.")
+    return None
+  elif a < 0 or b < 0:
+    logging.error("Given parameter is neither 0 or a positive integer.")
+    return None
+  else: 
+    logging.info("Both parameters are integers and equal to or above 0, proceeding with calculation.")
+    points = a + b
+    logging.info("Total points is: " + str(points) + ". Returning value.")
+    return points
+
+#assert points(12, 10) == 22, "A player with 12 goals and 10 assists should have 22 points"
+#assert points('h', 'd') == None, "Integer parameters should return None"
+#assert points(-2, 3) == None, "Parameters with values less than 0 should return None"
+
+# printing basic stats
+def printingBasicStats(playerName, gamesPlayed, goals, assists, points):
+  '''
+  Prints out a player's statistics.
+  
+  Prints out a player's statistics. Requires 5 parameters. 
+
+  Parameters
+  ----------
+  playerName: string
+    The name of the player.
+  gamesPlayed: int
+    How many games the player played.
+  goals: int
+    How many goals the player scored.
+  assists: int
+    How many assists the player has.
+  points: int
+    How many points the player has. 
+  
+  Returns
+  -------
+  None
+  
+  '''
+  logging.info("Function printingBasicStats receives these parameters: " + str(playerName) + ', ' + str(gamesPlayed) + ', ' + str(goals) + ', ' + str(assists) + ', ' + str(points))
+  print()
+  print(playerName)
+  print('Games Played: ' + str(gamesPlayed))
+  print('Goals: ' + str(goals))
+  print('Assists: ' + str(assists))
+  print('Points: ' + str(points))
+
+
+# basic stats - view player menu
+def basicStats():
+  '''
+  Displays players' basic statistics.
+  
+  Displays players' basic statistics. Requires no parameters. Checks for invalid user input. 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  
+  if playerInput == '1':
+    logging.info("User inputted '1' into playerInput, printing out basic stats for John Tavares and going to function leavingContinuing()")
+    printingBasicStats(johnTavares, gamesPlayed1, goals1, assists1, points1)
+    leavingContinuing()
+  elif playerInput == '2':
+    logging.info("User inputted '2' into playerInput, printing out basic stats for Auston Matthews and going to function leavingContinuing()")
+    printingBasicStats(austonMatthews, gamesPlayed2, goals2, assists2, points2)
+    leavingContinuing()
+  elif playerInput == '3':
+    logging.info("User inputted '3' into playerInput, printing out basic stats for Mitch Marner and going to function leaving Continuing()")
+    printingBasicStats(mitchMarner, gamesPlayed3, goals3, assists3, points3)
+    leavingContinuing()
+  elif playerInput == '4':
+    logging.info("User inputted '4' into playerInput, printing out basic stats for Morgan Rielly and going to function leavingContinuing()")
+    printingBasicStats(morganRielly, gamesPlayed4, goals4, assists4, points4)
+    leavingContinuing()
+  elif playerInput == '5':
+    logging.info("User inputted '5' into playerInput, printing out basic stats for Jake Muzzin and going to function leavingContinuing()")
+    printingBasicStats(jakeMuzzin, gamesPlayed5, goals5, assists5, points5)
+    leavingContinuing()
+  elif playerInput == '0':
+    logging.info("User inputted '0' into playerInput, going to function leavingContinuing()")
+    leavingContinuing()
+  else:
+    logging.error("playerInput received an invalid input, going back to function viewPlayers()")
+    print('Invalid entry, type a number from 1-4')
+    viewPlayers()
+
+# calculating points per game
+def pointsPerGame(currentPoints, currentGamesPlayed): # a = points, b = games played
+  '''
+  Calculates player's points per game.
+  
+  Calculates player's points per game. Requires two parameters: current points and current games played. Rounds the result to two decimal places and returns the player's points per game.
+
+  Parameters
+  ----------
+  int: currentPoints
+    How many points a player has.
+  int: currentGamesPlayed
+    How many games a player has played. 
+  
+  Returns
+  -------
+  String
+    Returns the player's points per game. 
+  
+  NoneType
+    Returns None when invalid inputs are given. 
+  
+  '''
+  logging.info("Function pointsPerGame received parameters: " + str(currentPoints) + " and " + str(currentGamesPlayed))
+  if not isinstance (currentPoints, int) or not isinstance(currentGamesPlayed, int):
+    logging.error("Given parameters are not int.")
+    return None
+  elif currentPoints < 0 or currentGamesPlayed <= 0:
+    logging.error("Given parameters are out of range.")
+    return None
+  else:
+    logging.info("Given parameters are int and within range, proceeding with calculations.")
+    pointsPerGame = currentPoints/currentGamesPlayed
+    pointsPerGame = round(pointsPerGame, 2)
+    logging.info("The player's points per game is " + str(pointsPerGame) + ". Returning value.")
+    return pointsPerGame
+
+#assert pointsPerGame(5, 10) == 0.5, "5 points in 10 games should result in a 0.5 ppg"
+#assert pointsPerGame(5, 0) == None, "Should return None, cannot have 0 games played"
+#assert pointsPerGame(-9, 10) == None, "Should return None, cannot have negative values"
+#assert pointsPerGame(3.4, 9.8) == None, "Should return None, cannot have floats"
+#assert pointsPerGame('asfdka', 'ladf') == None, "Should return None, cannot have strings"
+
+# calculating projected points in one season
+def predictedPoints(currentPoints, currentGamesPlayed):
+  '''
+  Calculates how many points a player is predicted to have at the end of the season. 
+  
+  Calculates how many points a player is predicted to have at the end of the season. Requires two parameters: the player's current points and how many games they played. Based on an 82 game season. Rounds predicted points to two decimal places.
+
+  Parameters
+  ----------
+  int: currentPoints
+    How many points a player has.
+  int: currentGamesPlayed
+    How many games a player has played. 
+  
+  Returns
+  -------
+  int
+    Returns the player's predicted points at the end of the season. 
+  
+  NoneType
+    Returns None when an invalid input is given.
+  
+  '''
+  logging.info("Function predictedPoints is given parameters: " + str(currentPoints) + " and " + str(currentGamesPlayed))
+  if not isinstance(currentGamesPlayed, int) or not isinstance(currentPoints, int):
+    logging.error("Given parameters are not int.")
+    return None
+  elif currentGamesPlayed <= 0 or currentPoints < 0:
+    logging.error("Given parameters are out of range.")
+    return None
+  else:
+    logging.info("Given parameters are int and within range, proceeding with calculations.")
+    while currentGamesPlayed <= 82:
+      currentPoints += currentPoints/currentGamesPlayed
+      currentGamesPlayed += 1
+      if currentGamesPlayed == 82:
+        currentPoints = round(currentPoints)
+        logging.info("Predicted points is: " + str(currentPoints) + ". Returning value.")
+        return currentPoints
+
+#assert predictedPoints(5, 10) == 41, 'The predicted points should be 41.'
+#assert predictedPoints(10, 0) == None, 'Should return None, cannot have 0 games played.'
+#assert predictedPoints(-5, 10) == None, 'Should return None, cannot have negative integers'
+#assert predictedPoints(6, 7.5) == None, 'Should return None, cannot have floats'
+#assert predictedPoints('afkjlka', 8) == None, 'Should return None, cannot have strings'
+
+# printing advanced stats
+def printingAdvancedStats(playerName, points, gamesPlayed):
+  '''
+  Prints out a player's advanced stats. 
+  
+  Prints out a player's advanced stats. Requires three parameters. 
+
+  Parameters
+  ----------
+  string: playerName
+    The player's name.
+  int: points
+    How many points a player has.
+  int: gamesPlayed
+    How many games a player played.
+  
+  Returns
+  -------
+  None
+  
+  '''
+  logging.info("Function printingAdvancedStats requires parameters: " + str(playerName) + ', ' + str(points) + ', ' + str(gamesPlayed))
+  print()
+  print(playerName)
+  ppg = pointsPerGame(points, gamesPlayed)
+  predictedPoint = predictedPoints(points, gamesPlayed)
+  if ppg == None: 
+    print('invalid inputs')
+  elif predictedPoint == None:
+    print('invalid inputs')
+  else:
+    print(str(ppg) + " points per game")
+    print(playerName + ' is on pace for approximately ' + str(predictedPoint) + ' points this season.')
+
+# advanced stats
+def advancedStats():
+  '''
+  Displays player's advanced stats.
+  
+  Displays player's advanced stats. Requires no parameters. Checks for invalid user input. 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None
+  
+  '''
+  if playerInput == '1': 
+    logging.info("User inputs '1' into playerInput. Printing out advanced stats for John Tavares and going to function leavingContinuing()")
+    printingAdvancedStats(johnTavares, points1, gamesPlayed1)
+    leavingContinuing()
+  elif playerInput == '2':
+    logging.info("User inputs '2' into playerInput. Printing out advanced stats for Auston Matthews and going to function leavingContinuing()")
+    printingAdvancedStats(austonMatthews, points2, gamesPlayed2)
+    leavingContinuing()
+  elif playerInput == '3':
+    logging.info("User inputs '3' into playerInput. Printing out advanced stats for Mitch Marner and going to function leavingContinuing()")
+    printingAdvancedStats(mitchMarner, points3, gamesPlayed3)
+    leavingContinuing()
+  elif playerInput == '4':
+    logging.info("User inputs '4' into playerInput. Printing out advanced stats for Morgan Rielly and going to function leavingContinuing()")
+    printingAdvancedStats(morganRielly, points4, gamesPlayed4)
+    leavingContinuing()
+  elif playerInput == '5':
+    logging.info("User inputs '5' into playerInput. Printing out advanced stats for Jake Muzzin and going to function leavingContinuing()")
+    printingAdvancedStats(jakeMuzzin, points5, gamesPlayed5)
+    leavingContinuing()
+  else:
+    logging.error("playerInput receives an invalid input, going back to function viewPlayers()")
+    print('Invalid entry, type a number from 1-3')
+    viewPlayers()
+
+def printingAboutPlayers(playerInfoList):
+  '''
+  Prints out player information in list form vertically. 
+  
+  Prints out player information in list form vertically. Requires one parameter. 
+
+  Parameters
+  ----------
+  list: playerInfoList
+    A list of the player's information. 
+  
+  Returns
+  -------
+  None
+  
+  '''
+  print()
+  logging.info("Function printingAboutPlayers receives parameter: " + str(playerInfoList))
+  for info in playerInfoList:
+    print(info)
+
+# about the player
+def aboutPlayer():
+  '''
+  Displays information about the players
+  
+  Displays information about the players. Requires no parameters. 
+
+  Parameters
+  ----------
+  None
+  
+  Returns
+  -------
+  None 
+  
+  '''
+  if playerInput == '1':
+    logging.info("User inputs '1' into playerInput. Printing player information about John Tavares and going to function leavingContinuing()")
+    aboutTavares = ['JOHN TAVARES', 'Position: C', "Height: 6'1", 'Age: 29:', 'Born: September 20, 1990', 'Birthplace: Mississauga, ON, CAN', 'Shoots: Left', 'Draft: 2009 NYI, 1st rd, 1st pk (1st overall)']
+    printingAboutPlayers(aboutTavares)
+    print()
+    leavingContinuing()
+  if playerInput == '2':
+    logging.info("User inputs '2' into playerInput. Printing player information about Auston Matthews and going to function leavingContinuing()")
+    aboutMatthews = ['AUSTON MATTHEWS', 'Position: C', "Height: 6'3", 'Age: 22', 'Born September 17, 1997', 'Birthplace: San Ramon, CA, USA', 'Shoots: Left', 'Draft: 2016 TOR, 1st rd, 1st pk (1st overall)']
+    printingAboutPlayers(aboutMatthews)
+    print()
+    leavingContinuing()
+  if playerInput == '3':
+    logging.info("User inputs '3' into playerInput. Printing player information about Mitch Marner and going to function leavingContinuing()")
+    aboutMarner = ['MITCH MARNER', 'Position: RW', "Height: 6'0", "Age: 22", "Born: May 5, 1997", 'Birthplace: Markham, ON, CAN', 'Shoots: Right', 'Draft: 2015 TOR, 1st rd, 4th pk (4th overall)']
+    printingAboutPlayers(aboutMarner)
+    print()
+    leavingContinuing()
+  if playerInput == '4':
+    logging.info("User inputs '4' into playerInput. Printing player information about Morgan Rielly and going to function leavingContinuing()")
+    aboutRielly = ['MORGAN RIELLY', 'Position: D', "Height: 6'1", 'Age: 26', 'Born: March 9, 1994', 'Birthplace: Vancouver, BC, CAN', 'Shoots: Left', 'Draft: 2012 TOR, 1st rd, 5th pk (5th overall)']
+    printingAboutPlayers(aboutRielly)
+    print()
+    leavingContinuing()
+  if playerInput == '5':
+    logging.info("User inputs '5' into playerInput. Printing player information about Morgan Rielly and going to function leavingContinuing()")
+    aboutMuzzin = ['JAKE MUZZIN', 'Position: D', "Height: 6'3", 'Age: 31', 'Born: February 21, 1989', 'Birthplace: Woodstock, ON, CAN', 'Shoots: Left', 'Draft: 2007 PIT, 5th rd, 20th pk (141st overall)']
+    printingAboutPlayers(aboutMuzzin)
+    print()
+    leavingContinuing()
+        
+# declaring variables for basic and advanced stats
+johnTavares = 'JOHN TAVARES'
+gamesPlayed1 = 63
+goals1 = 26
+assists1 = 34
+points1 = points(goals1, assists1)
+austonMatthews = 'AUSTON MATTHEWS'
+gamesPlayed2 = 70
+goals2 = 47
+assists2 = 33
+points2 = points(goals2, assists2)
+mitchMarner = 'MITCH MARNER'
+gamesPlayed3 = 59
+goals3 = 16
+assists3 = 51
+points3 = points(goals3, assists3)
+morganRielly = 'MORGAN RIELLY'
+gamesPlayed4 = 47
+goals4 = 3
+assists4 = 24
+points4 = points(goals4, assists4)
+jakeMuzzin = 'JAKE MUZZIN'
+gamesPlayed5 = 53
+goals5 = 6
+assists5 = 17
+points5 = points(goals5, assists5)
+
+# beginning of program
+
+print('Welcome to the Toronto Maple Leafs homepage! What would you like to explore today?')
+print()
+selectingMenu()
